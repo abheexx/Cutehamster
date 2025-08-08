@@ -6,8 +6,8 @@ The application provides an intuitive interface where users can drag accessories
 
 ## Screenshots
 
-![Main Game Interface](screenshot1.png)
-![Hamster with Accessories](screenshot2.png)
+![Main Game Interface](public/assets/screenshot1.png)
+![Hamster with Accessories](public/assets/screenshot2.png)
 
 ## How to Run
 
