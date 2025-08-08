@@ -1,0 +1,476 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Courier New', monospace;
+    background-image: url('public/assets/bricks.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+    min-height: 100vh;
+    color: #333;
+    position: relative;
+}
+
+/* Clean brick background */
+
+.game-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Header removed for cleaner interface */
+
+.btn {
+    background: linear-gradient(45deg, #ff6b9d, #ff8fab);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 25px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(255, 107, 157, 0.3);
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 107, 157, 0.4);
+}
+
+.main-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    margin-bottom: 20px;
+    min-height: 70vh;
+}
+
+.workspace {
+    background: transparent;
+    border-radius: 5px;
+    padding: 5px;
+    box-shadow: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100px;
+}
+
+.hamster-area {
+    position: relative;
+    width: 400px;
+    height: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: 
+        /* Subtle wood grain texture */
+        linear-gradient(90deg, transparent 1px, rgba(139, 69, 19, 0.05) 1px, rgba(139, 69, 19, 0.05) 2px, transparent 2px),
+        linear-gradient(0deg, transparent 1px, rgba(160, 82, 45, 0.03) 1px, rgba(160, 82, 45, 0.03) 2px, transparent 2px),
+        /* Main gradient */
+        linear-gradient(135deg, 
+            rgba(222, 184, 135, 0.8) 0%, 
+            rgba(210, 180, 140, 0.9) 25%, 
+            rgba(188, 143, 143, 0.8) 50%, 
+            rgba(210, 180, 140, 0.9) 75%, 
+            rgba(222, 184, 135, 0.8) 100%
+        );
+    background-size: 4px 4px, 6px 6px, 100% 100%;
+    border: 5px solid #8b4513;
+    border-radius: 0;
+    box-shadow: 
+        inset 0 0 30px rgba(139, 69, 19, 0.3),
+        inset 3px 3px 6px rgba(255, 255, 255, 0.4),
+        inset -3px -3px 6px rgba(0, 0, 0, 0.2),
+        0 12px 24px rgba(0, 0, 0, 0.3);
+}
+
+/* Decorative corner elements */
+.hamster-area::before {
+    content: '';
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    border: 2px double #654321;
+    border-radius: 0;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.hamster-area::after {
+    content: '';
+    position: absolute;
+    top: 18px;
+    left: 18px;
+    width: 20px;
+    height: 20px;
+    background: radial-gradient(circle, #8b4513 40%, transparent 50%);
+    border-radius: 0;
+    pointer-events: none;
+    z-index: 1;
+    box-shadow: 
+        calc(100% - 38px) 0 0 0 #8b4513,
+        0 calc(100% - 38px) 0 0 #8b4513,
+        calc(100% - 38px) calc(100% - 38px) 0 0 #8b4513;
+}
+
+.hamster-base {
+    width: 300px;
+    height: 300px;
+    background: transparent;
+    border-radius: 0;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: none;
+    background-image: url('public/assets/ChatGPT Image Aug 7, 2025, 09_50_32 PM.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.hamster-base::before {
+    content: '';
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    background: transparent;
+    border-radius: 50%;
+    top: 20px;
+    left: 20px;
+}
+
+.hamster-base::after {
+    content: '';
+    position: absolute;
+    z-index: 10;
+}
+
+.outfit-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.outfit-item {
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 48px;
+    cursor: grab;
+    pointer-events: auto;
+    transition: all 0.2s ease;
+    z-index: 20;
+    overflow: hidden;
+    user-select: none;
+}
+
+.outfit-item:active {
+    cursor: grabbing !important;
+}
+
+.outfit-item:hover {
+    cursor: grab;
+}
+
+.outfit-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    pointer-events: none;
+}
+
+.outfit-item:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 15px rgba(255, 107, 157, 0.4);
+    cursor: grab;
+}
+
+.outfit-item.dragging {
+    opacity: 0.8;
+    transform: scale(1.1) rotate(5deg);
+    z-index: 1000;
+    pointer-events: none;
+}
+
+.closet-panel {
+    background: linear-gradient(145deg, #8b4513, #a0522d, #d2b48c);
+    border: 4px solid #654321;
+    border-radius: 12px;
+    padding: 15px;
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    height: 250px;
+    max-height: 250px;
+    overflow-y: auto;
+    transition: all 0.3s ease;
+    position: relative;
+    font-family: 'Press Start 2P', 'Courier New', monospace;
+}
+
+/* Clean modern design */
+
+.closet-panel::before {
+    content: "ACCESSORIES";
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    background: linear-gradient(90deg, #deb887, #d2b48c);
+    color: #654321;
+    text-align: center;
+    padding: 8px;
+    font-weight: normal;
+    font-size: 12px;
+    border: 2px solid #654321;
+    letter-spacing: 2px;
+    font-family: 'Press Start 2P', 'Courier New', monospace;
+}
+
+.closet-panel.drop-target {
+    background: linear-gradient(145deg, #ffff00, #ffd700, #ff8c00) !important;
+    border: 4px dashed #ff0000 !important;
+    transform: scale(1.02);
+}
+
+.closet-panel h3 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #ff6b9d;
+    font-size: 1.5rem;
+}
+
+.mood-tabs {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.mood-tab {
+    background: #f0f0f0;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.mood-tab.active {
+    background: #ff6b9d;
+    color: white;
+}
+
+.mood-tab:hover {
+    background: #ff8fab;
+    color: white;
+}
+
+.clothing-section {
+    margin-bottom: 25px;
+}
+
+.clothing-section h4 {
+    margin-bottom: 10px;
+    color: #7b3131;
+    font-size: 1.1rem;
+}
+
+.clothing-grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 15px;
+    margin-top: 30px;
+    padding: 15px;
+    background: rgba(101, 67, 33, 0.2);
+    border: 2px solid rgba(210, 180, 140, 0.3);
+    border-radius: 8px;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.clothing-item {
+    width: 120px;
+    height: 120px;
+    background: transparent;
+    border: none;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 48px;
+    cursor: grab;
+    transition: all 0.2s ease;
+    user-select: none;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.clothing-item:active {
+    cursor: grabbing !important;
+    transform: scale(0.95);
+}
+
+.clothing-item:hover {
+    cursor: grab;
+    transform: scale(1.1);
+    box-shadow: 0 0 15px rgba(210, 180, 140, 0.8);
+    background: rgba(210, 180, 140, 0.2);
+    border-radius: 8px;
+}
+
+.clothing-item:active {
+    cursor: grabbing;
+}
+
+.clothing-item.selected {
+    border-color: #28a745;
+    box-shadow: 0 4px 15px rgba(40, 167, 69, 0.4);
+    transform: scale(1.1);
+}
+
+.selection-btn {
+    background: linear-gradient(45deg, #ff6b9d, #ff8fab) !important;
+}
+
+.selection-btn.active {
+    background: linear-gradient(45deg, #28a745, #20c997) !important;
+}
+
+.saved-outfits {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.saved-outfits h3 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #ff6b9d;
+    font-size: 1.5rem;
+}
+
+.saved-outfits-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 15px;
+}
+
+.saved-outfit {
+    background: #f8f9fa;
+    border: 2px solid #dee2e6;
+    border-radius: 10px;
+    padding: 15px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.saved-outfit:hover {
+    border-color: #ff6b9d;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(255, 107, 157, 0.2);
+}
+
+.saved-outfit img {
+    width: 100px;
+    height: 100px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    border: 2px solid #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.saved-outfit .outfit-name {
+    font-weight: bold;
+    color: #666;
+    margin-bottom: 5px;
+}
+
+.saved-outfit .outfit-date {
+    font-size: 0.8rem;
+    color: #999;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .main-content {
+        grid-template-columns: 1fr;
+    }
+    
+    .closet-panel {
+        order: -1;
+    }
+    
+    .hamster-area {
+        width: 250px;
+        height: 250px;
+    }
+    
+    .hamster-base {
+        width: 150px;
+        height: 150px;
+    }
+    
+    .hamster-base::before {
+        width: 120px;
+        height: 120px;
+        top: 15px;
+        left: 15px;
+    }
+    
+    .hamster-base::after {
+        font-size: 60px;
+    }
+    
+    header h1 {
+        font-size: 2rem;
+    }
+    
+    .header-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+/* Animation for new items */
+@keyframes bounceIn {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.outfit-item.new {
+    animation: bounceIn 0.5s ease-out;
+} 
